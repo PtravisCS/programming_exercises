@@ -18,22 +18,6 @@ int isPositiveInt(const char *string) {
 
 }
 
-//Unused due to finding a formula that doesn't require a loop.
-//Keeping around for next problem which may need a loop.
-long long int summation(int start, int end, int increment) {
-
-  long long int sum = 0;
-
-  for (int i = start; i < end + 1; i++) {
-
-    sum += i;
-
-  }
-
-  return sum;
-
-}
-
 int main(int argc, char * argv) {
 
   char str_num[21];
