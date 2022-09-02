@@ -28,6 +28,25 @@ long long int factorial(const int n) {
 
 }
 
+int sum_or_prod(const int int_num, const char str_menu_choice) {
+
+  if (str_menu_choice == '1') {
+
+    //Using long long int to ensure we can capture the summation of 1..INT_MAX, it may fit in a long int but better safe than sorry
+    long long int sum = int_num * (int_num + 1) / 2;  
+    printf("Sum of all numbers between 1 and %i = %li\n", int_num, sum);
+
+  } else {
+
+    long long int product = factorial(int_num);
+    printf("Product of all numbers between 1 and %i = %li\n", int_num, product); 
+
+  }
+
+  return 0;
+
+}
+
 int main(int argc, char * argv) {
 
   char str_num[21];
@@ -43,7 +62,7 @@ int main(int argc, char * argv) {
 
   } 
 
-  //using long int to avoid wibbling about with unsigned int instead, a bit memory inefficient, but safer than working with unsigned ints.
+  //using long int to avoid wibbling about with unsigned int, a bit memory inefficient, but safer than working with unsigned ints.
   long int int_num = atoi(str_num);
 
   char str_menu_choice[3];
@@ -58,23 +77,7 @@ int main(int argc, char * argv) {
 
   }
 
-  if (str_menu_choice[0] == '1') {
-
-    if (int_num > 0 && int_num <= INT_MAX) {
-
-      //Using long long int to ensure we can capture the summation of 1..INT_MAX, it may fit in a long int but better safe than sorry
-      long long int sum = int_num * (int_num + 1) / 2;  
-      printf("Sum of all numbers between 1 and %i = %li\n", int_num, sum);
-
-    } 
-
-  } else {
-
-    long long int product = factorial(int_num);
-    printf("Product of all numbers between 1 and %i = %li\n", int_num, product); 
-
-  }
-
+  int error = sum_or_prod(int_num, str_menu_choice[0]);
 
   return 0;
 
