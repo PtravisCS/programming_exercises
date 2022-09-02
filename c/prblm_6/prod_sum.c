@@ -70,7 +70,7 @@ long int get_number_s(int lower_bound, int upper_bound, char * prompt, char * fa
 
   } 
 
-  long int int_num = atoi(str_num);
+  long int int_num = atol(str_num);
 
   return int_num;
 
