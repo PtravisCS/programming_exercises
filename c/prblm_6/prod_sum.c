@@ -45,6 +45,15 @@ void sum_or_prod(const int int_num, const long int str_menu_choice) {
 
 }
 
+void empty_stdin_buffer() {
+
+  int c;
+  while ((c = getchar()) != '\n' && c != EOF) {}
+
+  return;
+
+}
+
 long int get_number_s(int lower_bound, int upper_bound, char * prompt, char * fail_message, char * length_specifier, int len) {
 
   char str_num[len];
@@ -54,6 +63,7 @@ long int get_number_s(int lower_bound, int upper_bound, char * prompt, char * fa
 
   while (!isPositiveInt(str_num) || upper_bound < atoi(str_num) || atoi(str_num) < lower_bound) {
   
+    empty_stdin_buffer();
     printf(fail_message);
     printf(prompt);
     scanf(length_specifier, str_num);
@@ -73,45 +83,16 @@ int main(int argc, char * argv) {
   char length_specifier[5];
 
   snprintf(prompt, 100, "Please provide a number between 1 and %i: ", INT_MAX);
-  snprintf(fail_message, 100, "Entered string was not a number, please try again.\n");
+  snprintf(fail_message, 100, "Entered string was not valid, please try again.\n");
   snprintf(length_specifier, 5, "%%20s");
 
   long int int_num = get_number_s(1, INT_MAX, prompt, fail_message, length_specifier, 21);
-
-  /*
-  printf("Please provide a number between 1 and %i: ", INT_MAX);
-  scanf("%20s", str_num);
-
-  while (!isPositiveInt(str_num) || INT_MAX < atoi(str_num) || atoi(str_num) < 0) {
-  
-    printf("Entered string was not a number, please try again.\n");
-    printf("Please provide a number between 1 and %i: ", INT_MAX);
-    scanf("%20s", str_num);
-
-  } 
-
-  //using long int to avoid wibbling about with unsigned int, a bit memory inefficient, but safer than working with unsigned ints.
-  long int int_num = atoi(str_num);
-  */
 
   snprintf(prompt, 100, "Choose which value to compute\n1. Sum\n2. Product\n> ");
   snprintf(fail_message, 100, "Invalid menu selection, please select either 1 or 2.\n");
   snprintf(length_specifier, 5, "%%1s");
 
   long int menu_choice = get_number_s(1, 2, prompt, fail_message, length_specifier, 2);
-
-  /*
-  printf("Choose which value to compute\n1. Sum\n2. Product\n> ");
-  scanf("%1s", str_menu_choice);
-  
-  while (str_menu_choice[0] != '1' && str_menu_choice[0] != '2') {
-
-    printf("Invalid menu selection, please select either 1 or 2.\n");
-    printf("Please choose which value to compute\n1. Sum\n2. Product\n> ");
-    scanf("%1s", str_menu_choice);
-
-  }
-  */
 
   sum_or_prod(int_num, menu_choice);
 
