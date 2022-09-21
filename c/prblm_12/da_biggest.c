@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
+#include <errno.h>
+#include <time.h>
 
 int rand_in_range(int min_num, int max_num) {
 
@@ -36,17 +39,23 @@ void generate_array(const size_t ARR_SIZE, const int MAX_NUM, int * buff) {
 
 }
 
-int find_largest(int * arr, const size_t ARR_SIZE) {
+int find_largest(int * arr, const size_t ARR_SIZE, unsigned int starting_indice, unsigned int ending_indice) {
 
   int largest = 0;
-  int index = 0;
+  //int index = 0;
 
-  for (long unsigned int j = 0; j < ARR_SIZE; j++) {
+  if (starting_indice > ARR_SIZE || ending_indice > ARR_SIZE) {
+    printf("Indice out of bounds, On Line: %i in file: %si\n", __LINE__, __FILE__);
+    exit(EXIT_FAILURE);
+  }
+
+
+  for (long unsigned int j = starting_indice; j < ending_indice; j++) {
 
     if (arr[j] > largest) {
 
       largest = arr[j];
-      index = j;
+      //index = j;
 
     }
 
@@ -65,10 +74,59 @@ int main() {
   int arr[ARR_SIZE];
 
   generate_array(ARR_SIZE, MAX_NUM, arr);
+  printf("\n");
 
-  int largest = find_largest(arr, ARR_SIZE);
+  int piperw[2];
+  pid_t my_pid;
+  int buffer;
 
-  printf("\n\nLargest Entry: %i\n\n", largest);
+  pipe(piperw);
+  my_pid = fork();
+
+  if (my_pid == 0) { //Child program
+    
+    int largest = find_largest(arr, ARR_SIZE, ARR_SIZE / 2, ARR_SIZE);
+    printf("Child Largest: %i\n", largest);
+
+    close(piperw[0]);
+    
+    //This should be refactored in the future
+    int tries = 0;
+    while (write(piperw[1], &largest, sizeof(int)) != sizeof(int) && errno == 0 && tries < 10) 
+      tries++;
+
+    close(piperw[1]);
+ 
+    if (tries > 10) {
+      
+      printf("Failed to write\n");
+    
+    }
+
+  } else { //Parent program
+
+    int largest = find_largest(arr, ARR_SIZE, 0, (ARR_SIZE / 2) - 1);
+    printf("\nParent Largest: %i\n", largest);
+
+    close(piperw[1]);
+
+    int tries = 0;
+    while(read(piperw[0], &buffer, sizeof(int)) != sizeof(int) && errno == 0 && tries < 10)
+      tries++;
+
+    close(piperw[0]);
+
+    if (tries > 10) {
+      printf("Failed to read\n");
+    }
+
+    if (buffer > largest) {
+      printf("\nLargest int: %i\n\n", buffer);
+    } else {
+      printf("\nLargest int: %i\n\n", largest);
+    }
+
+  }
 
   return 0;
 
