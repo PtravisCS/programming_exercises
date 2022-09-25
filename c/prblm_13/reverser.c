@@ -9,13 +9,19 @@ int main() {
 
   dl_list_init(&list);
 
-  for (int i = 1; i < 101; i++) {
+  dl_list_set_val(&list, 10);
+
+  for (int i = 2; i < 101; i++) {
 
     dl_list_append(&list, i * 10);
 
   }
 
-  dl_list_mov_item_to_indice(&list, 10, 5);
+  dl_list_mov_item_to_indice(&list, 9, 5);
+
+  dl_list_print(&list);
+
+  dl_list_mov_item_to_indice(&list, 5, 9);
 
   dl_list_print(&list);
 

@@ -11,6 +11,7 @@ struct listItem {
 };
 
 struct dLinkedList {
+  int length;
   listItem * head;
   listItem * tail;
   listItem * pntr;
