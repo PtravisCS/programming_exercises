@@ -76,7 +76,7 @@ long int get_number_s(int lower_bound, int upper_bound, char * prompt, char * fa
 
 }
 
-int main(int argc, char * argv) {
+int main(int argc, char ** argv) {
 
   char prompt[100];
   char fail_message[100];

@@ -30,7 +30,7 @@ long long int sum_divis_by(int num, int end) {
 
 
 
-int main(int argc, char * argv) {
+int main(int argc, char ** argv) {
 
   const int NUM_1 = 3;
   const int NUM_2 = 5;
@@ -59,7 +59,7 @@ int main(int argc, char * argv) {
     long long int combined_sum = sum_divis_by(NUM_1 * NUM_2, int_num);
     long long int total = first_sum + second_sum - combined_sum;
 
-    printf("Sum of all multiples of %i and %i between 1 and %i = %li\n", NUM_1, NUM_2, int_num, total);
+    printf("Sum of all multiples of %i and %i between 1 and %li = %lli\n", NUM_1, NUM_2, int_num, total);
 
   } 
 
