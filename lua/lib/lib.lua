@@ -1,4 +1,4 @@
-function contains_int(n)
+function str_contains_int(n)
   if string.find(n, '^[+-]?%d+$') then
     return true
   else
@@ -6,7 +6,7 @@ function contains_int(n)
   end
 end
 
-function contains_float(n)
+function str_contains_float(n)
   if string.find(n, '^[+-]?%d+%.%d$') then
     return true
   else
@@ -14,7 +14,7 @@ function contains_float(n)
   end
 end
 
-function contains_number(n)
+function str_contains_number(n)
   if contains_int(n) or contains_float(n) then
     return true
   else
@@ -71,4 +71,16 @@ function factorial(n)
 
     return result
   end
+end
+
+function generate_random_array(size, min, max)
+  local list = {}
+  math.randomseed(os.time())
+
+  for i = 0, size do
+    local rand = math.random(min, max)
+    table.insert(list, rand)
+  end
+
+  return list
 end
