@@ -13,6 +13,7 @@ void dl_list_init(struct dLinkedList * list) {
   list->head = frstItem;
   list->tail = frstItem;
   list->pntr = frstItem;
+  list->length++;
 
   return;
 
@@ -140,22 +141,22 @@ void dl_list_mov_item_to_indice(struct dLinkedList * list, int item,  int indice
   struct listItem * moved_item = list->pntr;
   struct listItem * moved_next_item = list->pntr->next;
   struct listItem * moved_prev_item = list->pntr->prev;
+  int moved_item_indice = moved_item->indice;
 
   dl_list_move_pntr_to_indice(list, indice);
   struct listItem * original_item = list->pntr;
-  struct listItem * original_prev_item = list->pntr->prev;
   struct listItem * original_next_item = list->pntr->next;
+  struct listItem * original_prev_item = list->pntr->prev;
+  int original_item_indice = original_item->indice;
 
   original_item->prev->next = moved_item;
-  original_item->prev = moved_item;
+  original_item->prev = moved_item->prev;
   
-  moved_item->next->prev = moved_item->prev;
-  moved_item->prev->next = moved_item->next;
+  moved_item->next->prev = original_item;
+  moved_item->prev->next = original_item;
   moved_item->prev = original_prev_item;
-  moved_item->next = original_item;
+  moved_item->next = original_next_item;
   moved_item->indice = original_item->indice;
-
-  original_item->indice++;
 
   if (item == list->head->indice) {
     list->head = moved_prev_item;

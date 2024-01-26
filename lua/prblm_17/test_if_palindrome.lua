@@ -14,7 +14,7 @@ local list_size = #list
 for i = 1, #list, 1 do
   io.write(list[i]..' '..list[list_size - (i - 1)]..'\n')
   if list[i] ~= list[list_size - (i - 1)] then
-    is_palindrome = false 
+    is_palindrome = false
   end
 end
 
